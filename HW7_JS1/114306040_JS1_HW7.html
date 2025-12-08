@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+<h1>114306040_HW7_1A2B</h1>
+<div class="button">
+	Enter 4 unique numbers
+	<input id="guessInput" type="text">
+	<input type="button" value="Guess!" onclick="play()">
+</div>
+<p>Game Record:</p>
+<div id="history">
+</div>
+</body>
+<script>
+	var attempts = 0;
+	var answer = generateAnswer();
+
+	function generateAnswer(){
+		var pool = [0,1,2,3,4,5,6,7,8,9];
+		var ans ="";
+		while(ans.length<4){
+			var index = Math.floor(Math.random()*pool.length);
+			ans += pool[index];
+			pool.splice(index,1);
+		}
+		return ans;
+	}
+
+	function play(){
+		var guess = document.getElementById("guessInput").value;
+		if(!isValid(guess)){
+			return;
+		}
+		attempts++;
+		var result = checkAB(guess,answer);
+		document.getElementById("history").innerHTML+= "第"+attempts +"次: "+guess +" → " + result + "<br>"; 
+
+		  if(result === "4A0B"){
+        	alert("Correct! Attempts: " + attempts);
+        	attempts = 0;
+       		answer=generateAnswer();
+       		document.getElementById("history").innerHTML = "";
+}
+    document.getElementById("guessInput").value = "";
+	}
+
+
+	function isValid(str){
+		  if(str.length !== 4 || !/^\d+$/.test(str)){
+        alert("Please enter exactly 4 digits.");
+        return false;
+    }else if(new Set(str).size !== 4){
+        alert("Digits cannot repeat!");
+        return false;
+    }
+      return true;
+}
+	function checkAB(guess, ans) {
+    var A = 0, B = 0;
+    for(var i=0; i<4; i++){
+        if(guess[i] === ans[i]) A++;
+        else if(ans.includes(guess[i])) B++;
+    }
+    return A + "A" + B + "B";
+}
+</script>
+</html>
