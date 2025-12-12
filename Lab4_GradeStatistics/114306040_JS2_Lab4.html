@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table,th,td{
+	text-align: center;
+}
+th{
+	background-color: lightgray;
+}
+h1{
+	text-align:center; margin-bottom: 20px;
+}
+#gradeTable{
+	width:800px; border-collapse:collapse; margin-top:20px;
+}
+</style>
+<body>
+<h1>Grade Statistics</h1>
+<input type = "number" id = "math" placeholder= "Math">
+<input type = "number" id = "eng" placeholder= "English">
+<button id = "submitBtn">Submit</button>
+<table id = "gradeTable" border="1">
+	<tr>
+		<th>#</th>
+		<th>Math</th>
+		<th>English</th>
+		<th>Average</th>
+	</tr>
+</table>
+
+<script>
+	var count = 0;
+	var submitBtn = document.getElementById("submitBtn");
+
+	submitBtn.addEventListener("click",function(){	
+		var math = document.getElementById("math").value;
+    	var eng = document.getElementById("eng").value;
+    		count++;
+		var table = document.getElementById("gradeTable");
+
+		var oldAvgRow = document.getElementById("avgRow");
+   		if (oldAvgRow) oldAvgRow.remove();
+
+    	var newRow = table.insertRow(-1);
+
+    newRow.insertCell(0).innerText = count;
+    newRow.insertCell(1).innerText = math;
+    newRow.insertCell(2).innerText = eng;
+
+    var avg = (parseFloat(math) + parseFloat(eng)) / 2;
+    newRow.insertCell(3).innerText = avg.toFixed(2);
+  
+    document.getElementById("math").value = "";
+    document.getElementById("eng").value = "";
+
+    updateColumnAverages();
+});
+	function updateColumnAverages() {
+    var table = document.getElementById("gradeTable");
+    var totalMath = 0, totalEng = 0 , totalAvg = 0;
+    var rowCount = table.rows.length - 1; // 減去標題列
+
+    for (var i = 1; i < table.rows.length; i++) {
+        totalMath += parseFloat(table.rows[i].cells[1].innerText); 
+        totalEng += parseFloat(table.rows[i].cells[2].innerText); 
+        totalAvg += parseFloat(table.rows[i].cells[3].innerText); 
+    }
+
+    var mathAvg = (totalMath / rowCount).toFixed(2);
+    var engAvg = (totalEng / rowCount).toFixed(2);
+    var overallAvg = (totalAvg / rowCount).toFixed(2);
+
+    var avgRow = table.insertRow(-1);
+    avgRow.id = "avgRow";
+    avgRow.style.fontWeight = "bold";
+    avgRow.insertCell(0).innerText = "Average";
+    avgRow.insertCell(1).innerText = mathAvg;
+    avgRow.insertCell(2).innerText = engAvg;
+    avgRow.insertCell(3).innerText = overallAvg; 
+}
+</script>
+</body>
+</html>
