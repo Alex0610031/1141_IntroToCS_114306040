@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="114306040_JS2_HW8.css">
+</head>
+<body>
+<div class="calculatearea">
+<h1>JS Calculator</h1>
+<h3>Number 1</h3>
+<input type="number" id="num1">
+<h3>Number 2</h3>
+<input type="number" id="num2">
+<h3>Operate way?</h3>
+<select id="operator">
+    <option value="+">+</option>
+    <option value="-">-</option>
+    <option value="*">*</option>
+    <option value="/">/</option>
+</select><br>
+<button id="calcBtn" onclick="calculate()">Calculate</button>
+<p id="result"></p>
+</div>
+<script>
+	function add(a,b){
+		return a+b;
+	}
+	function subtract(a,b){
+		return a-b;
+	}
+	function multiply(a,b){
+		return a*b;
+	}
+	function divide(a,b){
+		return a/b;
+	}
+	function calculate() {
+    var num1 = document.getElementById("num1").value;
+    var num2 = document.getElementById("num2").value;
+    var op = document.getElementById("operator").value;
+    var result;
+
+    if (num1 === "" || num2 === "") {
+        document.getElementById("result").innerText = "Please enter both numbers.";
+        return;
+    }
+    
+    num1 = parseFloat(num1);
+    num2 = parseFloat(num2);
+
+    if (op === "/" && num2 === 0) {
+        document.getElementById("result").innerText = "Error: Division by zero!";
+        return;
+    }
+    switch(op) {
+        case "+":
+            result = add(num1, num2);
+            break;
+        case "-":
+            result = subtract(num1, num2);
+            break;
+        case "*":
+            result = multiply(num1, num2);
+            break;
+        case "/":
+            result = divide(num1, num2);
+            break;
+    }
+
+    if (typeof result === "number") {
+        result = result.toFixed(2);
+    }
+
+    document.getElementById("result").innerText = "Result: " + result;
+}
+    var operatorSelect = document.getElementById("operator");
+    var calcButton = document.getElementById("calcBtn");
+
+    operatorSelect.addEventListener("change", function(){
+        var op = operatorSelect.value;
+        switch(op){
+            case "+": calcButton.innerText = "Add"; break;
+            case "-": calcButton.innerText = "Subtract"; break;
+            case "*": calcButton.innerText = "Multiply"; break;
+            case "/": calcButton.innerText = "Divide"; break;
+        }
+    });
+</script>
+</body>
+</html>
